@@ -53,7 +53,10 @@ func (cc *ChainConfig) GetValInfo(first bool) (err error) {
 		l(fmt.Sprintf("❌ %s (%s) is INACTIVE", cc.ValAddress, cc.valInfo.Moniker))
 	}
 
-	if strings.Contains(cc.ValAddress, "valcons") {
+	if len(cc.ValconsOverride) > 0 {
+		//always use override value if supplied
+		cc.valInfo.Valcons = cc.ValconsOverride
+	} else if strings.Contains(cc.ValAddress, "valcons") {
 		// no need to change prefix for signing info query
 		cc.valInfo.Valcons = cc.ValAddress
 	} else {
